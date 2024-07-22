@@ -9,7 +9,7 @@ use App\Domain\Model\Cart;
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
-class DiscountManager
+readonly class DiscountManager
 {
     public function __construct(private iterable $strategies) {}
 

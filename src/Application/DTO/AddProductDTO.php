@@ -9,7 +9,7 @@ use Webmozart\Assert\Assert;
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
-class AddProductDTO
+readonly class AddProductDTO
 {
     private array $productIds;
 

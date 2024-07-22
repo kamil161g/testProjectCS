@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Model;
 
-class ProductModel
+readonly class ProductModel
 {
     public function __construct(private string $name, private float $price) {}
 

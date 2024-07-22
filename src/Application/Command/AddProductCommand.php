@@ -9,7 +9,7 @@ use App\Application\DTO\AddProductDTO;
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
-class AddProductCommand
+readonly class AddProductCommand
 {
     public function __construct(private AddProductDTO $productDTO) {}
 

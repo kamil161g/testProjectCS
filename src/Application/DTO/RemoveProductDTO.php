@@ -9,7 +9,7 @@ use Webmozart\Assert\Assert;
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
-class RemoveProductDTO
+readonly class RemoveProductDTO
 {
     private array $productIds;
 

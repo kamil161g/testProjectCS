@@ -25,7 +25,7 @@ class Cart
 
     public function getTotalPrice(): float
     {
-        return array_reduce($this->products, fn($sum, $product) => $sum + $product->getPrice(), 0);
+        return array_reduce($this->products, static fn($sum, $product) => $sum + $product->getPrice(), 0);
     }
 
     public function getProducts(): array
@@ -43,16 +43,6 @@ class Cart
             $counts[$product->getName()]++;
         }
         return $counts;
-    }
-
-    public function getProductPrice(string $productName): float
-    {
-        foreach ($this->products as $product) {
-            if ($product->getName() === $productName) {
-                return $product->getPrice();
-            }
-        }
-        throw new InvalidArgumentException("Product with name $productName not found in cart.");
     }
 
     public function removeProduct(ProductModel $product): void

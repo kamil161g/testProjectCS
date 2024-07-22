@@ -9,8 +9,10 @@ use AllowDynamicProperties;
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
-#[AllowDynamicProperties] class GetCartQuery
+readonly class GetCartQuery
 {
+    private array $view;
+
     public function setView(array $view): void
     {
         $this->view = $view;

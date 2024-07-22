@@ -11,7 +11,7 @@ use App\Application\Service\DiscountManager;
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
-class GetCartQueryHandler
+readonly class GetCartQueryHandler
 {
     public function __construct(private CartProvider $cartProvider, private DiscountManager $discountManager) {}
 

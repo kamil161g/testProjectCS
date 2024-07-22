@@ -9,11 +9,9 @@ use App\Application\DTO\RemoveProductDTO;
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
-class RemoveProductCommand
+readonly class RemoveProductCommand
 {
-    public function __construct(private RemoveProductDTO $productDTO)
-    {
-    }
+    public function __construct(private RemoveProductDTO $productDTO) {}
 
     public function getProductDTO(): RemoveProductDTO
     {

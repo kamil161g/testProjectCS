@@ -11,10 +11,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
-class CartProvider
+readonly class CartProvider
 {
-    private Cart $cart;
-
     public function __construct(private RequestStack $requestStack) {}
 
     public function getCart(): Cart
@@ -23,11 +21,11 @@ class CartProvider
         $cartData = $session->get(SessionKey::Cart->value);
 
         if ($cartData) {
-            $this->cart = unserialize($cartData, [Cart::class]);
+            $cart = unserialize($cartData, [Cart::class]);
         } else {
-            $this->cart = new Cart();
+            $cart = new Cart();
         }
 
-        return $this->cart;
+        return $cart;
     }
 }
