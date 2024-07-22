@@ -7,7 +7,7 @@ namespace App\Application\CommandHandler;
 use App\Application\Service\CartProvider;
 use App\Domain\Enum\SessionKey;
 use App\Domain\Model\Cart;
-use App\Infrastructure\Repository\ProductRepository;
+use App\Domain\Repository\ProductRepositoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -19,7 +19,7 @@ abstract class BaseCartCommandHandler
 
     public function __construct(
         protected RequestStack $requestStack,
-        protected ProductRepository $productRepository,
+        protected ProductRepositoryInterface $productRepository,
         protected CartProvider $cartProvider
     ) {
         $this->cart = $this->cartProvider->getCart();

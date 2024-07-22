@@ -44,7 +44,7 @@ class CartController extends AbstractApiController
                 $command = new AddProductCommand($productDTO);
                 $this->commandBus->dispatch($command);
 
-                return $this->getSuccessResponse(new JsonResponse());
+                return new JsonResponse();
             }
 
             return new JsonResponse(['error' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
@@ -65,7 +65,7 @@ class CartController extends AbstractApiController
                 $command = new RemoveProductCommand($productDTO);
                 $this->commandBus->dispatch($command);
 
-                return $this->getSuccessResponse(new JsonResponse());
+                return new JsonResponse();
             }
 
             return new JsonResponse(['error' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
