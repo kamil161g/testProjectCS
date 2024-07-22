@@ -42,7 +42,7 @@ class RemoveProductCommandHandlerTest extends TestCase
         $cart->addProduct(new ProductModel('Candy', 10.0));
         $cartProvider->method('getCart')->willReturn($cart);
 
-        $handler = new RemoveProductCommandHandler($cartProvider, $productRepository, $requestStack);
+        $handler = new RemoveProductCommandHandler($requestStack, $productRepository, $cartProvider);
         $productDTO = new RemoveProductDTO([1]);
         $command = new RemoveProductCommand($productDTO);
 
