@@ -19,7 +19,7 @@ class AddProductCommandHandler extends BaseCartCommandHandler
         foreach ($productDTO->getProductIds() as $productId) {
             $product = $this->productRepository->find($productId);
             if ($product instanceof Product) {
-                $this->cart->addProduct(new ProductModel($product->getName(), $product->getPrice()));
+                $this->cart->addProduct(new ProductModel($product->getId(), $product->getName(), $product->getPrice()));
                 $this->updateSession();
             }
         }

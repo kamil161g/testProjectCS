@@ -28,7 +28,7 @@ readonly class RemoveProductDTO
         Assert::keyExists($data, 'productIds');
         Assert::isArray($data['productIds']);
         foreach ($data['productIds'] as $id) {
-            Assert::integer($id);
+            Assert::string($id);
         }
 
         return new self($data['productIds']);

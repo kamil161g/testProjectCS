@@ -6,7 +6,7 @@ namespace App\UserInterface\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,7 +19,7 @@ class AddProductType extends AbstractType
     {
         $builder
             ->add('productIds', CollectionType::class, [
-                'entry_type' => IntegerType::class,
+                'entry_type' => TextType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
             ]);

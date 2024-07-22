@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Domain\Model;
 
-use InvalidArgumentException;
-
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
 class Cart
 {
+    /**
+     * @var ProductModel[]
+     */
     private array $products;
 
     public function __construct()
@@ -30,28 +31,41 @@ class Cart
 
     public function getProducts(): array
     {
-        return $this->products;
+        $products = [];
+        foreach ($this->products as $product) {
+            $products[$product->getId()] = $product;
+        }
+        return $products;
     }
 
     public function getProductCounts(): array
     {
         $counts = [];
         foreach ($this->products as $product) {
-            if (!isset($counts[$product->getName()])) {
-                $counts[$product->getName()] = 0;
+            $id = $product->getId();
+            if (!isset($counts[$id])) {
+                $counts[$id] = 0;
             }
-            $counts[$product->getName()]++;
+            $counts[$id]++;
         }
         return $counts;
     }
 
-    public function removeProduct(ProductModel $product): void
+    public function getProductById(string $id): ?ProductModel
     {
-        foreach ($this->products as $key => $existingProduct) {
-            if ($existingProduct->getName() === $product->getName() && $existingProduct->getPrice() === $product->getPrice()) {
+        foreach ($this->products as $product) {
+            if ($product->getId() === $id) {
+                return $product;
+            }
+        }
+        return null;
+    }
+
+    public function removeProduct(string $productId): void
+    {
+        foreach ($this->products as $key => $product) {
+            if ($product->getId() === $productId) {
                 unset($this->products[$key]);
-                $this->products = array_values($this->products);
-                break;
             }
         }
     }

@@ -16,9 +16,12 @@ class EveryFifthProductFreeStrategy implements DiscountStrategyInterface
         $totalPrice = $cart->getTotalPrice();
         $productCounts = $cart->getProductCounts();
 
-        foreach ($productCounts as $productName => $count) {
-            $productPrice = array_values(array_filter($cart->getProducts(), static fn($product) => $product->getName() === $productName))[0]->getPrice();
-            $totalPrice -= floor($count / 5) * $productPrice;
+        foreach ($productCounts as $productId => $count) {
+            $product = $cart->getProductById($productId);
+            if ($product) {
+                $productPrice = $product->getPrice();
+                $totalPrice -= floor($count / 5) * $productPrice;
+            }
         }
 
         return $totalPrice;

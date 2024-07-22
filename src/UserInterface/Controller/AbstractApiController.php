@@ -58,12 +58,7 @@ class AbstractApiController extends AbstractController
                 throw new RuntimeException("This format isn't JSON");
             }
 
-            $content = $request->getContent();
-            if (!json_validate($content)) {
-                throw new RuntimeException("Invalid JSON data");
-            }
-
-            return json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+            return $request->toArray();
         } catch (Throwable $exception) {
             throw new RuntimeException($exception->getMessage());
         }
