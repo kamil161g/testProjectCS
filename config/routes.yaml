@@ -1,0 +1,14 @@
+cart_add_product:
+    path: /cart
+    controller: App\UserInterface\Controller\CartController::addProduct
+    methods: [POST]
+
+cart_total:
+    path: /cart
+    controller: App\UserInterface\Controller\CartController::getCart
+    methods: [GET]
+
+cart_remove_product:
+    path: /cart
+    controller: App\UserInterface\Controller\CartController::removeProduct
+    methods: [DELETE]

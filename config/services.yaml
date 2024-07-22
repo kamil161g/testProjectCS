@@ -1,0 +1,41 @@
+services:
+    _defaults:
+        autowire: true      # Automatycznie wstrzykiwanie zależności do usług.
+        autoconfigure: true # Automatyczne rejestrowanie usług jako komendy, subskrybentów zdarzeń itp.
+
+    # Definiuje klasy w katalogu src/ jako usługi
+    # Tworzy usługę dla każdej klasy, której ID to w pełni kwalifikowana nazwa klasy
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Infrastructure\Persistence\MemoryCartRepository:
+        autowire: true
+        public: true
+
+    App\Application\CommandHandler\AddProductCommandHandler:
+        tags: ['messenger.message_handler']
+
+    App\Application\CommandHandler\RemoveProductCommandHandler:
+        tags: [ 'messenger.message_handler' ]
+
+    App\Application\QueryHandler\GetCartQueryHandler:
+        tags: ['messenger.message_handler']
+
+    App\Application\Service\EveryFifthProductFreeStrategy:
+        tags: ['discount.strategy']
+
+    App\Application\Service\TotalPricePercentageDiscountStrategy:
+        tags: ['discount.strategy']
+
+    App\Application\Service\DiscountManager:
+        arguments:
+            $strategies: !tagged_iterator discount.strategy
+
+
+
+    # Inne definicje usług, jeśli wymagana jest jawna konfiguracja
+    # Proszę pamiętać, że ostatnie definicje zawsze *zastępują* poprzednie

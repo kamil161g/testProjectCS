@@ -1,0 +1,12 @@
+framework:
+    messenger:
+        transports:
+            async:
+                dsn: 'doctrine://default'
+                options:
+                    table_name: messenger_messages
+            sync: 'sync://'
+        routing:
+            'App\Application\Command\AddProductCommand': sync
+            'App\Application\Query\GetCartQuery': sync
+            'App\Application\Command\RemoveProductCommand': sync
