@@ -10,6 +10,7 @@ use App\Application\Service\CartProvider;
 use App\Application\Service\DiscountManager;
 use App\Domain\Model\Cart;
 use App\Domain\Model\ProductModel;
+use App\Domain\ValueObject\Money;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,93 +18,26 @@ use PHPUnit\Framework\TestCase;
  */
 class GetCartQueryHandlerTest extends TestCase
 {
-    public function testInvokeWithoutDiscounts(): void
+    public function testInvokeReturnsCorrectCart(): void
     {
         $cartProvider = $this->createMock(CartProvider::class);
         $cart = new Cart();
+
+        $money = new Money(10000);
+
+        $cart->addProduct(new ProductModel('5a1464b6-1245-4f81-b05b-08d0f7dc788', 'Test1', $money), 1);
         $cartProvider->method('getCart')->willReturn($cart);
 
         $discountManager = $this->createMock(DiscountManager::class);
-        $discountManager->method('applyBestDiscount')->with($cart)->willReturn(100.0);
+        $discountManager->method('applyBestDiscount')->with($cart)->willReturn($money);
 
         $query = $this->createMock(GetCartQuery::class);
 
         $handler = new GetCartQueryHandler($cartProvider, $discountManager);
 
         $query->expects($this->once())->method('setView')->with([
-            'products' => $cart,
-            'totalPrice' => 100.0,
-        ]);
-
-        $handler->__invoke($query);
-    }
-
-    public function testInvokeWithEveryFifthProductDiscount(): void
-    {
-        $cartProvider = $this->createMock(CartProvider::class);
-        $cart = new Cart();
-        for ($i = 0; $i < 5; $i++) {
-            $cart->addProduct(new ProductModel('Candy', 10.0));
-        }
-        $cartProvider->method('getCart')->willReturn($cart);
-
-        $discountManager = $this->createMock(DiscountManager::class);
-        $discountManager->method('applyBestDiscount')->with($cart)->willReturn(40.0);
-
-        $query = $this->createMock(GetCartQuery::class);
-
-        $handler = new GetCartQueryHandler($cartProvider, $discountManager);
-
-        $query->expects($this->once())->method('setView')->with([
-            'products' => $cart,
-            'totalPrice' => 40.0,
-        ]);
-
-        $handler->__invoke($query);
-    }
-
-    public function testInvokeWithPercentageDiscount(): void
-    {
-        $cartProvider = $this->createMock(CartProvider::class);
-        $cart = new Cart();
-        $cart->addProduct(new ProductModel('Product 1', 110.0));
-        $cartProvider->method('getCart')->willReturn($cart);
-
-        $discountManager = $this->createMock(DiscountManager::class);
-        $discountManager->method('applyBestDiscount')->with($cart)->willReturn(99.0); // 10% discount
-
-        $query = $this->createMock(GetCartQuery::class);
-
-        $handler = new GetCartQueryHandler($cartProvider, $discountManager);
-
-        $query->expects($this->once())->method('setView')->with([
-            'products' => $cart,
-            'totalPrice' => 99.0,
-        ]);
-
-        $handler->__invoke($query);
-    }
-
-    public function testInvokeWithNonCombiningPromotions(): void
-    {
-        $cartProvider = $this->createMock(CartProvider::class);
-        $cart = new Cart();
-        for ($i = 0; $i < 5; $i++) {
-            $cart->addProduct(new ProductModel('Candy', 10.0));
-        }
-        $cart->addProduct(new ProductModel('Expensive Item', 120.0));
-        $cartProvider->method('getCart')->willReturn($cart);
-
-        $discountManager = $this->createMock(DiscountManager::class);
-        $discountManager->method('applyBestDiscount')->with($cart)->willReturn(153.0);
-
-        $query = $this->createMock(GetCartQuery::class);
-
-        $handler = new GetCartQueryHandler($cartProvider, $discountManager);
-
-        $query->expects($this->once())->method('setView')->with([
-            'products' => $cart,
-            'totalPrice' => 153.0,
+            'cart' => $cart,
+            'totalPrice' => $money,
         ]);
 
         $handler->__invoke($query);

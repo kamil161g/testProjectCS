@@ -4,69 +4,56 @@ declare(strict_types=1);
 
 namespace App\Domain\Model;
 
+use App\Domain\ValueObject\Money;
+
 /**
  * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
 class Cart
 {
-    /**
-     * @var ProductModel[]
-     */
-    private array $products;
+    private array $items = [];
 
-    public function __construct()
+    public function addProduct(ProductModel $product, int $quantity = 1): void
     {
-        $this->products = [];
-    }
-
-    public function addProduct(ProductModel $product): void
-    {
-        $this->products[] = $product;
-    }
-
-    public function getTotalPrice(): float
-    {
-        return array_reduce($this->products, static fn($sum, $product) => $sum + $product->getPrice(), 0);
-    }
-
-    public function getProducts(): array
-    {
-        $products = [];
-        foreach ($this->products as $product) {
-            $products[$product->getId()] = $product;
+        $productId = $product->getId();
+        if (isset($this->items[$productId])) {
+            $this->items[$productId]->incrementQuantity($quantity);
+        } else {
+            $this->items[$productId] = new CartItem($product, $quantity);
         }
-        return $products;
+    }
+
+    public function removeProduct(string $productId, int $quantity = 1): void
+    {
+        if (isset($this->items[$productId])) {
+            $item = $this->items[$productId];
+            $item->incrementQuantity(-$quantity);
+            if ($item->getQuantity() <= 0) {
+                unset($this->items[$productId]);
+            }
+        }
+    }
+
+    public function getTotalPrice(): Money
+    {
+        $total = new Money(0);
+        foreach ($this->items as $item) {
+            $total = $total->add($item->getTotalPrice());
+        }
+        return $total;
     }
 
     public function getProductCounts(): array
     {
         $counts = [];
-        foreach ($this->products as $product) {
-            $id = $product->getId();
-            if (!isset($counts[$id])) {
-                $counts[$id] = 0;
-            }
-            $counts[$id]++;
+        foreach ($this->items as $productId => $item) {
+            $counts[$productId] = $item->getQuantity();
         }
         return $counts;
     }
 
-    public function getProductById(string $id): ?ProductModel
+    public function getProductById(string $id): ?CartItem
     {
-        foreach ($this->products as $product) {
-            if ($product->getId() === $id) {
-                return $product;
-            }
-        }
-        return null;
-    }
-
-    public function removeProduct(string $productId): void
-    {
-        foreach ($this->products as $key => $product) {
-            if ($product->getId() === $productId) {
-                unset($this->products[$key]);
-            }
-        }
+        return $this->items[$id] ?? null;
     }
 }

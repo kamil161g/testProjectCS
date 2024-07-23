@@ -15,10 +15,12 @@ class RemoveProductCommandHandler extends BaseCartCommandHandler
     public function __invoke(RemoveProductCommand $command): void
     {
         $productDTO = $command->getProductDTO();
-        foreach ($productDTO->getProductIds() as $productId) {
+        foreach ($productDTO->getProducts() as $productData) {
+            $productId = $productData['productId'];
+            $quantity = $productData['quantity'];
             $product = $this->productRepository->find($productId);
             if ($product instanceof Product) {
-                $this->cart->removeProduct($productId);
+                $this->cart->removeProduct($productId, $quantity);
                 $this->updateSession();
             }
         }

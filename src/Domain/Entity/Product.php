@@ -20,7 +20,7 @@ class Product
     private string $name;
 
     #[ORM\Column]
-    private float $price;
+    private int $price;
 
     public function getId(): string
     {
@@ -39,12 +39,12 @@ class Product
         return $this;
     }
 
-    public function getPrice(): float
+    public function getPrice(): int
     {
         return $this->price;
     }
 
-    public function setPrice(float $price): static
+    public function setPrice(int $price): static
     {
         $this->price = $price;
 

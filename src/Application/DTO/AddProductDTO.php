@@ -11,26 +11,36 @@ use Webmozart\Assert\Assert;
  */
 readonly class AddProductDTO
 {
-    private array $productIds;
+    private array $products;
 
-    public function __construct(array $productIds)
+    public function __construct(array $products)
     {
-        $this->productIds = $productIds;
+        Assert::isArray($products);
+        foreach ($products as $product) {
+            Assert::keyExists($product, 'productId');
+            Assert::keyExists($product, 'quantity');
+            Assert::string($product['productId']);
+            Assert::integer($product['quantity']);
+        }
+        $this->products = $products;
     }
 
-    public function getProductIds(): array
+    public function getProducts(): array
     {
-        return $this->productIds;
+        return $this->products;
     }
 
     public static function fromArray(array $data): self
     {
-        Assert::keyExists($data, 'productIds');
-        Assert::isArray($data['productIds']);
-        foreach ($data['productIds'] as $id) {
-            Assert::string($id);
+        Assert::keyExists($data, 'products');
+        Assert::isArray($data['products']);
+        foreach ($data['products'] as $product) {
+            Assert::keyExists($product, 'productId');
+            Assert::keyExists($product, 'quantity');
+            Assert::string($product['productId']);
+            Assert::integer($product['quantity']);
         }
 
-        return new self($data['productIds']);
+        return new self($data['products']);
     }
 }

@@ -7,6 +7,7 @@ namespace Tests\Application\Service;
 use App\Domain\Discount\EveryFifthProductFreeStrategy;
 use App\Domain\Model\Cart;
 use App\Domain\Model\ProductModel;
+use App\Domain\ValueObject\Money;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,11 +21,12 @@ class EveryFifthProductFreeStrategyTest extends TestCase
         $strategy = new EveryFifthProductFreeStrategy();
 
         for ($i = 0; $i < 5; $i++) {
-            $cart->addProduct(new ProductModel('Candy', 10.0));
+            $cart->addProduct(new ProductModel('5a1464b6-1245-4f81-b05b-08d0f7dc788', 'Candy', new Money(1000)),
+                1);
         }
 
         $finalPrice = $strategy->applyDiscount($cart);
 
-        $this->assertEquals(40.0, $finalPrice);
+        $this->assertEquals(new Money(4000), $finalPrice);
     }
 }

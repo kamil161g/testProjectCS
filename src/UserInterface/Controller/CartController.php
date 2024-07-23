@@ -46,7 +46,6 @@ class CartController extends AbstractApiController
 
                 return new JsonResponse();
             }
-
             return new JsonResponse(['error' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
         } catch (Throwable $exception) {
             return $this->getErrorResponse($exception);
@@ -67,7 +66,6 @@ class CartController extends AbstractApiController
 
                 return new JsonResponse();
             }
-
             return new JsonResponse(['error' => 'Invalid data'], Response::HTTP_BAD_REQUEST);
         } catch (Throwable $exception) {
             return $this->getErrorResponse($exception);
@@ -84,6 +82,5 @@ class CartController extends AbstractApiController
         } catch (Throwable $exception) {
             return $this->getErrorResponse($exception);
         }
-
     }
 }

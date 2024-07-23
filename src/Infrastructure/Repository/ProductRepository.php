@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Product>
+ * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
 class ProductRepository extends ServiceEntityRepository implements ProductRepositoryInterface
 {

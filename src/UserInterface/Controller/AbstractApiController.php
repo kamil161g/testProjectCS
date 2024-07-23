@@ -21,7 +21,11 @@ class AbstractApiController extends AbstractController
 {
     private const string JSON_TYPE = 'json';
 
-    public function __construct(private JMSSerializerInterface $serializer, private LoggerInterface $logger) {}
+    public function __construct(
+        private readonly JMSSerializerInterface $serializer,
+        private readonly LoggerInterface $logger
+    ) {
+    }
 
     public function getSuccessResponse($value, string $format = 'json', $groups = ['Default']): JsonResponse
     {
@@ -63,5 +67,4 @@ class AbstractApiController extends AbstractController
             throw new RuntimeException($exception->getMessage());
         }
     }
-
 }

@@ -21,7 +21,7 @@ readonly class GetCartQueryHandler
         $totalPrice = $this->discountManager->applyBestDiscount($cart);
 
         $query->setView([
-            'products' => $cart,
+            'cart' => $cart,
             'totalPrice' => $totalPrice
         ]);
     }
