@@ -7,7 +7,7 @@ namespace App\Domain\Model;
 use App\Domain\ValueObject\Money;
 
 /**
- * @author Kamil Gąsior <kgasior@weby.pl>
+ * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
 class CartItem
 {

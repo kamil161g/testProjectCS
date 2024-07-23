@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\ValueObject;
 
 /**
- * @author Kamil Gąsior <kgasior@weby.pl>
+ * @author Kamil Gąsior <kamilgasior07@gmail.com>
  */
 readonly class Money
 {
